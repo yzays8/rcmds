@@ -5,7 +5,7 @@ use std::process;
 use std::fs;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let mut args = env::args();
     if args.len() == 1 {
         let mut buf = [0; 4096];
         loop {
@@ -22,7 +22,8 @@ fn main() {
         }
     }
 
-    for arg in args[1..].into_iter() {
+    args.next();    // skip program name
+    for arg in args {
         match fs::read_to_string(arg) {
             Ok(content) => print!("{content}"),
             Err(err) => {
